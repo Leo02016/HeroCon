@@ -1,17 +1,11 @@
-import numpy as np
-import scipy.io as sio
-import os
 import itertools
 from scipy.io import arff
-from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
-from sklearn.model_selection import train_test_split, KFold, StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 import os
 import numpy as np
 import scipy.io as sio
-import random
 import cv2
-import imutils
 import copy
 import torch
 from sklearn.preprocessing import LabelEncoder
@@ -265,7 +259,7 @@ class load_celeba():
         aaa = list(map(os.path.exists, file_list))
         self.num_class = 40
         if sum(aaa) != len(aaa):
-            self.preprocess(data_path, 5)
+            self.preprocess(data_path)
         if stage == 'test' or stage == 'Test':
             data = sio.loadmat('{}/celeba/celeba_5_folds_{}.mat'.format(data_path, i))
             self.data = np.array(data['test_v1'])
@@ -286,7 +280,7 @@ class load_celeba():
         arr[np.where(label == 1.0)] = 1.0
         return arr
 
-    def preprocess(self, data_path, k_fold):
+    def preprocess(self, data_path):
         v1 = []
         v2 = []
         labels = []
@@ -299,22 +293,22 @@ class load_celeba():
                 data = np.array(line.split())
                 label = list(map(int, data[label_index]))
                 # crop and resize the image to generate the first view
-                # img = cv2.imread(data_path + 'img_align_celeba/' + data[0])
+                img = cv2.imread(data_path + 'img_align_celeba/' + data[0])
                 # assert img is not None, 'File {} is not loaded correctly'.format(data[0])
-                # x, y, h, w = 20, 0, 160, 200
-                # crop_img = img[x:x+h, y:y+w, :]
-                # cv2.imwrite(data_path + 'img_align_celeba_v1/' + data[0], crop_img)
+                x, y, h, w = 20, 0, 160, 200
+                crop_img = img[x:x+h, y:y+w, :]
+                cv2.imwrite(data_path + 'img_align_celeba_v1/' + data[0], crop_img)
                 v1.append(data_path + 'img_align_celeba_v1/' + data[0])
                 # color distortion to generate the second view
                 # https://stackoverflow.com/questions/35152636/random-flipping-and-rgb-jittering-slight-value-change-of-image
-                # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                # h, w, c = img.shape
-                # noise = np.random.randint(0, 50, (h, w))
-                # zitter = np.zeros_like(img)
-                # zitter[:, :, 1] = noise
-                # noise_added = cv2.add(img, zitter)
-                # combined_img = np.vstack((img[:int(h / 2), :, :], noise_added[int(h / 2):, :, :]))
-                # cv2.imwrite(data_path + 'img_align_celeba_v2/' + data[0], combined_img)
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                h, w, c = img.shape
+                noise = np.random.randint(0, 50, (h, w))
+                zitter = np.zeros_like(img)
+                zitter[:, :, 1] = noise
+                noise_added = cv2.add(img, zitter)
+                combined_img = np.vstack((img[:int(h / 2), :, :], noise_added[int(h / 2):, :, :]))
+                cv2.imwrite(data_path + 'img_align_celeba_v2/' + data[0], combined_img)
                 v2.append(data_path + 'img_align_celeba_v2/' + data[0])
                 labels.append(label)
                 if count >= 50000:
@@ -324,28 +318,6 @@ class load_celeba():
         v1 = np.array(v1)
         v2 = np.array(v2)
         labels = np.array(labels)
-        # train_index = range(180000)
-        # test_index = range(180000, len(v1))
-        # train_v1 = v1[train_index]
-        # test_v1 = v1[test_index]
-        # train_v2 = v2[train_index]
-        # test_v2 = v2[test_index]
-        # train_label = labels[train_index]
-        # test_label = labels[test_index]
-        # train_x = []
-        # for image in train_image:
-        #     train_x.append(self.load_image(image, 224))
-        # test_x = []
-        # for image in test_image:
-        #     test_x.append(self.load_image(image, 224))
-        # sio.savemat('{}/data.mat'.format(data_path), mdict={'train': train_x, 'test': test_x})
-        # sio.savemat('{}/label.mat'.format(data_path), mdict={'train': train_label, 'test': test_label})
-        # sio.savemat('{}/celeba_data.mat'.format(data_path), mdict={'train': train_image, 'test': test_image})
-        # sio.savemat('{}/celeba_label.mat'.format(data_path), mdict={'train': train_label, 'test': test_label})
-        # skf = StratifiedKFold(n_splits=100)
-        # count = 0
-        # y_new = LabelEncoder().fit_transform([''.join(str(l)) for l in labels])
-        # for train_index, test_index in skf.split(v1, y_new):
         for i in range(5):
             indices = np.random.permutation(len(v1))
             train_index = indices[:500]
@@ -361,7 +333,7 @@ class load_celeba():
 
     def load_image(self, image_name, scale):
         blob = np.zeros((scale, scale, 3), dtype=np.float32)
-        image_name = image_name[4:]
+        # image_name = image_name[4:]
         imgs = cv2.imread(image_name)
         assert imgs is not None, 'File {} is not loaded correctly'.format(image_name)
         if imgs.shape[0] > scale or imgs.shape[1] > scale:
