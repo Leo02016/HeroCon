@@ -18,7 +18,7 @@ Multi-view Multi-class setting on XRMB dataset
 python main.py -d xrmb -m linear -alpha 5 -beta 0.01 -e 300 -hid 100
 ```
 
-Multi-view Multi-class setting on CelebA dataset
+Multi-view Multi-class setting on MNIST dataset
 ```
 python main.py -d mnist -m linear -alpha 0.1 -beta 1 -e 300 -hid 200
 ```
