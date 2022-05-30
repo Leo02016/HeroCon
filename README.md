@@ -1,8 +1,10 @@
-### Demo Code for HeroCon algorithm
+### Demo Code for paper "Contrastive Learning with Complex heterogeneity" accepted by KDD 2022.
 
 ### Dependencies
 * PyTorch
-* pandas
+* Pandas
+* CV2
+* Sklearn
 
 
 ### Command
@@ -30,3 +32,6 @@ python main.py -d celeba -m vgg -alpha 0.05 -beta 0.1 -e 300
 * [MNIST](http://yann.lecun.com/exdb/mnist/)
 * [XRMB](https://home.ttic.edu/~klivescu/XRMB_data/full/README)
 * [CelebA](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
+
+
+Please 
