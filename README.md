@@ -16,3 +16,6 @@ Multi-view Multi-class setting on XRMB dataset
 python main.py -d xrmb -m linear -alpha 5 -beta 0.01 -e 300 -hid 100
 ```
 
+### More dataset
+* [MNIST](http://yann.lecun.com/exdb/mnist/)
+* 
