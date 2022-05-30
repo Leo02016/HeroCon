@@ -33,5 +33,3 @@ python main.py -d celeba -m vgg -alpha 0.05 -beta 0.1 -e 300
 * [XRMB](https://home.ttic.edu/~klivescu/XRMB_data/full/README)
 * [CelebA](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
 
-
-Please 
