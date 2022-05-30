@@ -1,4 +1,4 @@
-### Demo Code for paper "Contrastive Learning with Complex heterogeneity" accepted by KDD 2022.
+### Demo Code for the paper "Contrastive Learning with Complex heterogeneity" accepted by KDD 2022.
 
 ### Dependencies
 * PyTorch
