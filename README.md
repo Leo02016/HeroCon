@@ -18,4 +18,5 @@ python main.py -d xrmb -m linear -alpha 5 -beta 0.01 -e 300 -hid 100
 
 ### More dataset
 * [MNIST](http://yann.lecun.com/exdb/mnist/)
-* 
+* [XRMB](https://home.ttic.edu/~klivescu/XRMB_data/full/README)
+* [CelebA](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
