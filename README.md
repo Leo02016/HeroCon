@@ -20,7 +20,7 @@ python main.py -d xrmb -m linear -alpha 5 -beta 0.01 -e 300 -hid 100
 
 Multi-view Multi-class setting on MNIST dataset
 ```
-python main.py -d mnist -m linear -alpha 0.1 -beta 1 -e 300 -hid 200
+python main.py -d mnist -m cnn -alpha 0.1 -beta 1 -e 300 -hid 200
 ```
 
 Multi-view Multi-label setting on CelebA dataset
